@@ -6,9 +6,18 @@
       width: 120px;
       height: 100px;
       z-index: 9999;
+      pointer-events: none; /* the divs are the ones needing to read the mouse events, not the svg */     
     } 
     #outline-colour {
-      fill: none
+      fill: black
+    }
+    .block-test { 
+      width: 100px;
+      height: 100px;
+      background-color: #ae2222;
+      margin: auto;
+      margin-top: 50px;
+      
     }
   </style>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -50,6 +59,8 @@
   </svg>
 </div>
 
+<div class="block-test"></div>
+
 <script>
   $(document).mousemove(function(e) {
     $("#follow").css({
@@ -57,6 +68,22 @@
       top: e.pageY
     });
   });
+
+ document.querySelectorAll("div").forEach((node) => {
+
+    const chamCol = window.getComputedStyle(node)
+
+  node.onmouseenter = function () {
+    $("#outline-colour").css({ fill: `${chamCol.getPropertyValue("background-color")}` });
+  };
+
+  node.onmouseleave = function () {
+    $("#outline-colour").css({ fill: "black" });
+  };
+
+
+});
+
 </script>
 
 </body>
