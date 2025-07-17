@@ -6,7 +6,7 @@
       width: 120px;
       height: 100px;
       z-index: 9999;
-      pointer-events: none; /* the divs are the ones needing to read the mouse events, not the svg */     
+      pointer-events: none;
     } 
     #outline-colour {
       fill: black
@@ -61,30 +61,7 @@
 
 <div class="block-test"></div>
 
-<script>
-  $(document).mousemove(function(e) {
-    $("#follow").css({
-      left: e.pageX,
-      top: e.pageY
-    });
-  });
-
- document.querySelectorAll("div").forEach((node) => {
-
-    const chamCol = window.getComputedStyle(node)
-
-  node.onmouseenter = function () {
-    $("#outline-colour").css({ fill: `${chamCol.getPropertyValue("background-color")}` });
-  };
-
-  node.onmouseleave = function () {
-    $("#outline-colour").css({ fill: "black" });
-  };
-
-
-});
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
