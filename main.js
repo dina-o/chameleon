@@ -1,6 +1,3 @@
-chrome.storage.sync.get("chamEnabled", (data) => {
-  if (!data.chamEnabled) return;
-
   const svgWrapper = document.createElement("div");
   svgWrapper.innerHTML = `
      <svg  id="follow" style="position: fixed; pointer-events:none; z-index: 9999;" version="1.0" xmlns="http://www.w3.org/2000/svg"
@@ -48,6 +45,7 @@ document.addEventListener("mousemove", (e) => {
 
 
  document.querySelectorAll("div").forEach((node) => {
+
   node.addEventListener("mouseenter", function () {
     const chamCol = window.getComputedStyle(node);
     const chamColBg = chamCol.getPropertyValue("color");
@@ -68,7 +66,5 @@ document.addEventListener("mousemove", (e) => {
 
     browser.runtime.sendMessage({ type: "colorUpdate", color: "black" });
   });
-});
-
-
+  
 });
