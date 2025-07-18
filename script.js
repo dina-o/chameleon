@@ -1,21 +1,9 @@
-$(document).mousemove(function(e) {
-    $("#follow").css({
-      left: e.pageX,
-      top: e.pageY
-    });
-  });
+const ColourDisplay = document.getElementById("color-chosen");
 
- document.querySelectorAll("div").forEach((node) => {
+browser.runtime.onMessage.addListener((message) => {
 
-    const chamCol = window.getComputedStyle(node)
+    if (message.type === "colorUpdate") {
+        ColourDisplay.textContent = `colour: ${message.color}`;
+    }
 
-  node.onmouseenter = function () {
-    $("#outline-colour").css({ fill: `${chamCol.getPropertyValue("background-color")}` });
-  };
-
-  node.onmouseleave = function () {
-    $("#outline-colour").css({ fill: "black" });
-  };
-
-
-});
+})

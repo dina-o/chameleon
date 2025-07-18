@@ -1,0 +1,74 @@
+chrome.storage.sync.get("chamEnabled", (data) => {
+  if (!data.chamEnabled) return;
+
+  const svgWrapper = document.createElement("div");
+  svgWrapper.innerHTML = `
+     <svg  id="follow" style="position: fixed; pointer-events:none; z-index: 9999;" version="1.0" xmlns="http://www.w3.org/2000/svg"
+  width="120.000000pt" height="97.000000pt" viewBox="0 0 120.000000 97.000000"
+  preserveAspectRatio="xMidYMid meet">
+
+  <g transform="translate(0.000000,97.000000) scale(0.100000,-0.100000)"
+  stroke="none">
+  <path id="outline-colour" d="M580 793 c-8 -3 -36 -19 -62 -35 -36 -22 -54 -28 -76 -23 -35 7 -74
+  -7 -122 -45 -21 -17 -47 -30 -57 -30 -38 0 -50 -30 -56 -130 -7 -130 12 -162
+  126 -205 26 -10 47 -23 47 -30 0 -8 -30 -17 -77 -25 -107 -17 -133 -29 -63
+  -29 30 0 78 4 105 9 41 7 52 5 63 -8 11 -15 16 -15 60 1 30 11 77 17 129 17
+  73 0 82 -2 88 -20 7 -22 60 -29 67 -8 5 14 28 1 28 -16 0 -10 -33 -15 -127
+  -19 -152 -8 -338 -44 -420 -82 -70 -33 -55 -45 20 -17 119 45 291 71 541 82
+  132 6 246 15 255 21 11 7 -7 9 -61 6 -43 -2 -78 0 -78 5 0 4 5 8 10 8 19 0 50
+  83 50 132 0 26 -11 87 -25 135 -67 232 -143 314 -286 312 -35 0 -71 -3 -79 -6z
+  m168 -32 c75 -39 123 -116 167 -267 31 -105 32 -171 5 -224 -21 -40 -47 -55
+  -91 -48 -32 4 -63 70 -67 143 -4 54 -1 62 22 84 35 33 72 23 92 -25 12 -28 12
+  -39 3 -50 -10 -13 -14 -12 -29 1 -20 18 -34 6 -24 -19 7 -19 55 -21 72 -4 15
+  15 15 59 1 91 -27 59 -109 63 -146 8 -19 -29 -23 -47 -23 -117 0 -46 -4 -84
+  -9 -84 -4 0 -14 27 -20 60 -14 69 -31 80 -31 19 l0 -40 -42 3 -42 3 3 53 c2
+  42 -1 52 -13 52 -12 0 -16 -11 -16 -44 0 -43 0 -43 -57 -69 -42 -19 -59 -23
+  -65 -14 -4 7 4 17 24 27 38 18 69 60 45 60 -8 0 -20 -7 -27 -15 -17 -21 -80
+  -19 -141 5 -50 18 -99 54 -99 72 0 4 47 8 105 8 63 0 105 4 105 10 0 6 -43 10
+  -110 10 -108 0 -110 0 -110 23 0 100 116 237 200 237 13 0 41 -19 68 -45 56
+  -57 74 -54 31 4 -30 43 -31 45 -13 59 69 52 167 66 232 33z m-494 -145 c-3 -9
+  -10 -16 -15 -16 -6 0 -5 9 1 21 13 24 24 20 14 -5z"/>
+  <path d="M432 619 c-23 -9 -42 -38 -42 -67 0 -25 39 -60 77 -68 41 -8 73 22
+  73 69 0 52 -55 85 -108 66z m70 -36 c23 -21 23 -38 -2 -63 -19 -19 -22 -19
+  -50 -5 -23 12 -30 23 -30 44 0 15 3 31 7 34 12 13 56 7 75 -10z"/>
+  <path d="M456 571 c-4 -5 -2 -12 3 -15 5 -4 12 -2 15 3 4 5 2 12 -3 15 -5 4
+  -12 2 -15 -3z"/>
+  </g>
+  </svg>`;
+
+  document.body.appendChild(svgWrapper);
+
+document.addEventListener("mousemove", (e) => {
+  const follow = document.getElementById("follow");
+  if (follow) {
+    follow.style.left = `${e.clientX}px`;
+    follow.style.top = `${e.clientY}px`;
+  }
+});
+
+
+ document.querySelectorAll("div").forEach((node) => {
+  node.addEventListener("mouseenter", function () {
+    const chamCol = window.getComputedStyle(node);
+    const chamColBg = chamCol.getPropertyValue("color");
+
+    const outline = document.getElementById("outline-colour");
+    if (outline) {
+      outline.setAttribute("fill", chamColBg);
+    }
+
+    browser.runtime.sendMessage({ type: "colorUpdate", color: chamColBg });
+  });
+
+  node.addEventListener("mouseleave", function () {
+    const outline = document.getElementById("outline-colour");
+    if (outline) {
+      outline.setAttribute("fill", "black");
+    }
+
+    browser.runtime.sendMessage({ type: "colorUpdate", color: "black" });
+  });
+});
+
+
+});
