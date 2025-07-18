@@ -5,19 +5,37 @@
       font-family: "CustomDisplay";
       src: url("./Canela-RegularItalic-Trial.otf");
     }
+  body {
+     width: 200px;
+     height: 250px;
+     background-color: rgb(218, 239, 216);
+   }
     #color-chosen {
       font-family: "CustomDisplay";
+      font-size: medium;
+    }
+    #color-block-chosen {
+      width: 50px;
+      height: 50px;
+      background-color: black;
+    }
+    .display-wrapper {
       display: flex;
-      justify-content: center;
-      height: 100%;
-      margin-top: 50vh
-      
+      align-items: center;
+      flex-direction: column;
+      margin-top: 30%;
     }
   </style>
 </head>
 <body>
 
-<p id="color-chosen">colour: black</p>
+  <h1 style="font-family:CustomDisplay; text-align: center; font-size: medium;">Chameleon</h1>
+  <hr>
+
+  <div class="display-wrapper">
+    <div id="color-block-chosen"></div>
+    <p id="color-chosen">rgb(0, 0, 0)</p>
+  </div>
 
 <script src="script.js"></script>
 

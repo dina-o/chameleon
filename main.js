@@ -43,19 +43,19 @@ document.addEventListener("mousemove", (e) => {
   }
 });
 
-
- document.querySelectorAll("div").forEach((node) => {
+ document.querySelectorAll("h1","div").forEach((node) => {
 
   node.addEventListener("mouseenter", function () {
     const chamCol = window.getComputedStyle(node);
     const chamColBg = chamCol.getPropertyValue("color");
 
     const outline = document.getElementById("outline-colour");
+    
     if (outline) {
       outline.setAttribute("fill", chamColBg);
     }
 
-    browser.runtime.sendMessage({ type: "colorUpdate", color: chamColBg });
+    chrome.runtime.sendMessage({ type: "colorUpdate", color: chamColBg });
   });
 
   node.addEventListener("mouseleave", function () {
@@ -64,7 +64,7 @@ document.addEventListener("mousemove", (e) => {
       outline.setAttribute("fill", "black");
     }
 
-    browser.runtime.sendMessage({ type: "colorUpdate", color: "black" });
+    chrome.runtime.sendMessage({ type: "colorUpdate", color: "rgb(0, 0, 0)" });
   });
-  
+
 });
