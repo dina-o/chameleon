@@ -43,11 +43,16 @@ document.addEventListener("mousemove", (e) => {
   }
 });
 
- document.querySelectorAll("h1","div").forEach((node) => {
+ document.querySelectorAll("div, a.button, a.div, div.button, button, div.button, h1.span, p.span, h2.span, h1, h2, h3, p, a").forEach((node) => {
 
   node.addEventListener("mouseenter", function () {
     const chamCol = window.getComputedStyle(node);
-    const chamColBg = chamCol.getPropertyValue("color");
+    const bgCol = chamCol.getPropertyValue("background-color"); 
+    const textCol = chamCol.getPropertyValue("color");
+
+    const chamColBg = (bgCol && bgCol !== 'transparent' && bgCol !== 'rgba(0, 0, 0, 0)') ? bgCol : (textCol && textCol !== 'transparent' && textCol !== 'rgba(0, 0, 0, 0)') ? textCol : 'rgb(0, 0, 0)';
+
+    console.log(chamColBg);
 
     const outline = document.getElementById("outline-colour");
     
@@ -64,7 +69,7 @@ document.addEventListener("mousemove", (e) => {
       outline.setAttribute("fill", "black");
     }
 
-    chrome.runtime.sendMessage({ type: "colorUpdate", color: "rgb(0, 0, 0)" });
+    chrome.runtime.sendMessage({ type: "colorUpdate", color: "black" });
   });
 
 });
