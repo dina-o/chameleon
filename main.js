@@ -38,11 +38,6 @@
 
   let chameleonEnabled = true; 
 
-  chrome.storage.local.get("chameleonEnabled", (data) => {
-    chameleonEnabled = data.chameleonEnabled ?? true;
-    svgWrapper.style.display = chameleonEnabled ? "block" : "none";
-});
-
   document.addEventListener("mousemove", (e) => {
       if (!chameleonEnabled) return;
     const follow = document.getElementById("follow");
@@ -51,7 +46,6 @@
       follow.style.top = `${e.clientY}px`;
     }
   });
-
 
  document.querySelectorAll("div, a.button, a.div, div.button, button, div.button, h1.span, p.span, h2.span, h1, h2, h3, p, a").forEach((node) => {
 
