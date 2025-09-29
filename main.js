@@ -33,9 +33,18 @@
     </g>
     </svg>`;
 
+
   document.body.appendChild(svgWrapper);
 
+  let chameleonEnabled = true; 
+
+  chrome.storage.local.get("chameleonEnabled", (data) => {
+    chameleonEnabled = data.chameleonEnabled ?? true;
+    svgWrapper.style.display = chameleonEnabled ? "block" : "none";
+});
+
   document.addEventListener("mousemove", (e) => {
+      if (!chameleonEnabled) return;
     const follow = document.getElementById("follow");
     if (follow) {
       follow.style.left = `${e.clientX}px`;
@@ -47,6 +56,8 @@
  document.querySelectorAll("div, a.button, a.div, div.button, button, div.button, h1.span, p.span, h2.span, h1, h2, h3, p, a").forEach((node) => {
 
   node.addEventListener("mouseenter", function () {
+        if (!chameleonEnabled) return;
+
     const chamCol = window.getComputedStyle(node);
     const bgCol = chamCol.getPropertyValue("background-color"); 
     const textCol = chamCol.getPropertyValue("color");
@@ -65,6 +76,8 @@
   });
 
   node.addEventListener("mouseleave", function () {
+        if (!chameleonEnabled) return;
+
     const outline = document.getElementById("outline-colour");
     if (outline) {
       outline.setAttribute("fill", "black");
@@ -73,4 +86,11 @@
     chrome.runtime.sendMessage({ type: "colorUpdate", color: "rgb(0, 0, 0)" });
   });
 
+});
+
+chrome.runtime.onMessage.addListener((message) => {
+    if (message.type === "toggleChameleon") {
+        chameleonEnabled = message.enabled;
+        svgWrapper.style.display = chameleonEnabled ? "block" : "none";
+    }
 });
